@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
 
-function App() {
+import { useDispatch } from 'react-redux';
+
+import { SEARCH } from './store/table';
+
+import Table from './components/Table';
+
+function App() {  
+  const dispatch = useDispatch()
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const search = (event) => {
+    setSearchQuery(event.target.value)
+  }
+
+  const submitSearch = (e) => {
+    e.preventDefault();
+    dispatch({type: SEARCH, query: searchQuery})
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="content">
+      <h2 className="title">Table</h2>
+
+      <form className="tableSearchForm">
+        <input type="text" className="tableSeach" onChange={search} />
+        <button className="tableSeach--btn" onClick={submitSearch}>Search</button>
+      </form>
+
+      <Table />
+    </main>
   );
 }
 
